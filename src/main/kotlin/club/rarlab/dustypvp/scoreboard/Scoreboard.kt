@@ -17,6 +17,13 @@ interface BaseScoreboard {
     fun hide(player: Player)
 
     /**
+     * Update a [Player]'s Scoreboard.
+     */
+    fun update(player: Player, action: (Any) -> Unit) {
+        throw UnsupportedOperationException("Update is not supported here.")
+    }
+
+    /**
      * Get the [ScoreboardType] that a [Player] has toggled, null if none.
      */
     fun getToggled(player: Player): ScoreboardType?

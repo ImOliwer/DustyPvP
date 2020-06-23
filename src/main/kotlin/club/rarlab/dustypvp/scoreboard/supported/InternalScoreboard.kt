@@ -37,9 +37,17 @@ class InternalScoreboard : BaseScoreboard {
      * Hide a [Player]'s Scoreboard.
      */
     override fun hide(player: Player) {
-        if (player !in toggled) return
-        toggled.remove(player)
-        player.scoreboard = Bukkit.getScoreboardManager()!!.newScoreboard
+        if (toggled.remove(player) != null) {
+            player.scoreboard = Bukkit.getScoreboardManager()!!.newScoreboard
+        }
+    }
+
+    /**
+     * Update a [Player]'s Scoreboard.
+     */
+    override fun update(player: Player, action: (Any) -> Unit) {
+        val editable = toggled[player] ?: return
+        action.invoke(editable)
     }
 
     /**
