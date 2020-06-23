@@ -13,7 +13,7 @@ import org.bukkit.scoreboard.Team
  */
 class TeamsScoreboard {
     private var objective: Objective
-    private val board: Scoreboard = Bukkit.getScoreboardManager()!!.mainScoreboard
+    private val board: Scoreboard = Bukkit.getScoreboardManager()!!.newScoreboard
     private val teams = arrayOfNulls<Team>(MAX_LINES)
 
     /**
