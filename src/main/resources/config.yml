@@ -21,8 +21,7 @@ Database:
     Users-Table: "users"
 
 # This section has all options for the internal chat system.
-# Leave 'Enabled' at false if you're using another plugin to
-# handle the chat format etc.
+# Leave to false if another plugin is handling the chat format etc.
 Internal-Chat:
   Enabled: false
   Format: "&d{player}&7: &f{message}"
@@ -30,4 +29,24 @@ Internal-Chat:
     "&f* &5Kills: &d{kills}",
     "&f* &5Deaths: &d{deaths}",
     "&f* &5KDR: &d{kdr}"
+  ]
+
+# This section has all options for the internal scoreboard.
+# Leave to false if another plugin is handling the scoreboard.
+Internal-Scoreboard:
+  Enabled: false
+  Custom-Score:
+    Enabled: true
+    Score: 0
+  Title: "&f&l<*> &5&lDustyPvP &f&l<*>"
+  Lines: [
+    "&f&m--------------------",
+    "&d&lYOU",
+    "&f &f* &5Name: &f%player_name%",
+    "&f &f* &5Ping: &f%player_ping%",
+    "&r",
+    "&d&lSTATS",
+    "&f &f* &5Kills: &f%dustypvp_kills%",
+    "&f &f* &5Deaths: &f%dustypvp_deaths%",
+    "&f&m--------------------"
   ]

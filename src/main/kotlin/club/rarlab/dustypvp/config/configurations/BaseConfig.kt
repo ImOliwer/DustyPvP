@@ -2,6 +2,7 @@ package club.rarlab.dustypvp.config.configurations
 
 import club.rarlab.dustypvp.config.Config
 import club.rarlab.dustypvp.config.configurations.BaseOption.*
+import club.rarlab.dustypvp.config.configurations.BoardOption.*
 import club.rarlab.dustypvp.config.configurations.ChatOption.*
 import club.rarlab.dustypvp.data.DatabaseConnection
 import club.rarlab.dustypvp.data.DatabaseTable
@@ -53,9 +54,20 @@ class BaseConfig(private val plugin: Plugin) : Config {
 
         // internal chat
         configuration.getConfigurationSection("Internal-Chat")?.run {
-            ENABLED.modify(getBoolean("Enabled", false))
+            ChatOption.ENABLED.modify(getBoolean("Enabled", false))
             FORMAT.modify(getString("Format", "&d{player}&7: &f{message}")!!)
             TOOL_TIP.modify(getStringList("ToolTip"))
+        }
+
+        // internal scoreboard
+        configuration.getConfigurationSection("Internal-Scoreboard")?.run {
+            BoardOption.ENABLED.modify(getBoolean("Enabled", false))
+            getConfigurationSection("Custom-Score")?.run {
+                CUSTOM_SCORE_ENABLED.modify(getBoolean("Enabled", true))
+                CUSTOM_SCORE.modify(getInt("Score", 0))
+            }
+            TITLE.modify(getString("Title", "&f&l<*> &5&lDustyPvP &f&l<*>")!!)
+            LINES.modify(getStringList("Lines").toTypedArray())
         }
 
         // pool reload
@@ -130,6 +142,55 @@ enum class ChatOption(private var value: Any) {
      * Get the value as a [Boolean].
      */
     fun toBoolean(): Boolean = this.toString().toBoolean()
+
+    /**
+     * Modify the value.
+     */
+    fun modify(value: Any) {
+        this.value = value
+    }
+}
+
+/**
+ * Enumeration of all Scoreboard options.
+ */
+enum class BoardOption(private var value: Any) {
+    ENABLED(false),
+    CUSTOM_SCORE_ENABLED(true),
+    CUSTOM_SCORE(0),
+    TITLE("&f&l<*> &5&lDustyPvP &f&l<*>"),
+    LINES(arrayOf(
+            "&f&m--------------------",
+            "&d&lYOU",
+            "&f &f* &5Name: &f%player_name%",
+            "&f &f* &5Ping: &f%player_ping%",
+            "&r",
+            "&d&lSTATS",
+            "&f &f* &5Kills: &f%dustypvp_kills%",
+            "&f &f* &5Deaths: &f%dustypvp_deaths%",
+            "&f&m--------------------"
+    ));
+
+    /**
+     * Get the value as a [String].
+     */
+    override fun toString(): String = this.value.toString()
+
+    /**
+     * Get the value as an [Int].
+     */
+    fun toInt(): Int = this.toString().toIntOrNull() ?: 0
+
+    /**
+     * Get the value as a [Boolean].
+     */
+    fun toBoolean(): Boolean = this.toString().toBoolean()
+
+    /**
+     * Get the value as an [Array].
+     */
+    @Suppress("UNCHECKED_CAST")
+    fun <T> toArray(): Array<out T> = this.value as Array<out T>
 
     /**
      * Modify the value.

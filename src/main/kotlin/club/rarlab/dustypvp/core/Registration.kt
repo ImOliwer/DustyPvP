@@ -1,11 +1,9 @@
 package club.rarlab.dustypvp.core
 
 import club.rarlab.dustypvp.command.primary.CommandDustyPvP
-import club.rarlab.dustypvp.event.ChatListener
-import club.rarlab.dustypvp.event.DataListener
-import club.rarlab.dustypvp.event.SettingListener
-import club.rarlab.dustypvp.event.StatisticListener
+import club.rarlab.dustypvp.event.*
 import club.rarlab.dustypvp.integration.PlaceholderAPIHook
+import club.rarlab.dustypvp.scoreboard.supported.InternalScoreboard
 import org.bukkit.Bukkit
 import org.bukkit.plugin.Plugin
 import org.bukkit.plugin.PluginManager
@@ -40,12 +38,13 @@ internal object Registration {
     /**
      * Register all listeners.
      */
-    fun registerListeners(plugin: Plugin) {
+    fun registerListeners(plugin: Plugin, internalScoreboard: InternalScoreboard) {
         with (pluginManager) {
             registerEvents(DataListener(), plugin)
             registerEvents(StatisticListener(), plugin)
             registerEvents(ChatListener(), plugin)
             registerEvents(SettingListener(), plugin)
+            registerEvents(GeneralListener(internalScoreboard), plugin)
         }
     }
 

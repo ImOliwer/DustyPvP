@@ -1,8 +1,12 @@
 package club.rarlab.dustypvp.scoreboard.supported
 
+import club.rarlab.dustypvp.config.configurations.BoardOption.*
+import club.rarlab.dustypvp.core.Registration.isPlaceholderApi
 import club.rarlab.dustypvp.scoreboard.BaseScoreboard
 import club.rarlab.dustypvp.scoreboard.ScoreboardType
 import club.rarlab.dustypvp.scoreboard.teams.TeamsScoreboard
+import club.rarlab.dustypvp.util.color
+import me.clip.placeholderapi.PlaceholderAPI.setPlaceholders
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import java.util.*
@@ -14,7 +18,7 @@ class InternalScoreboard : BaseScoreboard {
     /**
      * [MutableMap] of players with toggled scoreboards.
      */
-    private val toggled: MutableMap<Player, TeamsScoreboard> = IdentityHashMap()
+    val toggled: MutableMap<Player, TeamsScoreboard> = IdentityHashMap()
 
     /**
      * Show a specific [ScoreboardType] to a [Player].
@@ -25,11 +29,8 @@ class InternalScoreboard : BaseScoreboard {
         }
 
         editable?.run {
-            title("this is a title")
-            line("this is line one")
-            line("this is line two")
-            line("this is line three")
-            show(player)
+            this.type = board
+            this.showTo(player)
         }
     }
 
@@ -45,9 +46,9 @@ class InternalScoreboard : BaseScoreboard {
     /**
      * Update a [Player]'s Scoreboard.
      */
-    override fun update(player: Player, action: (Any) -> Unit) {
+    override fun update(player: Player) {
         val editable = toggled[player] ?: return
-        action.invoke(editable)
+        this.refresh(player, editable)
     }
 
     /**
@@ -55,5 +56,20 @@ class InternalScoreboard : BaseScoreboard {
      */
     override fun getToggled(player: Player): ScoreboardType? {
         TODO("Not yet implemented")
+    }
+
+    /**
+     * Refresh a player's Scoreboard.
+     */
+    private fun refresh(player: Player, board: TeamsScoreboard) {
+        with (board) { when (board.type) {
+            ScoreboardType.DEFAULT -> {
+                title(TITLE.toString().color())
+                LINES.toArray<String>().reversed().forEachIndexed { index, line ->
+                    val processed = if (isPlaceholderApi) setPlaceholders(player, line) else line
+                    line(index, processed, if (CUSTOM_SCORE_ENABLED.toBoolean()) CUSTOM_SCORE.toInt() else index)
+                }
+            }
+        }}
     }
 }

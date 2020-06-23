@@ -4,6 +4,8 @@ import club.rarlab.dustypvp.config.configurations.*
 import club.rarlab.dustypvp.core.Registration
 import club.rarlab.dustypvp.data.DataSource
 import club.rarlab.dustypvp.helper.Callback
+import club.rarlab.dustypvp.runnables.GlobalUpdater
+import club.rarlab.dustypvp.scoreboard.supported.InternalScoreboard
 import club.rarlab.dustypvp.structure.PlayerHandler
 import club.rarlab.dustypvp.util.color
 import club.rarlab.dustypvp.util.connection.fetchCorrespondingSource
@@ -19,6 +21,11 @@ class DustyPlugin : JavaPlugin() {
      * [DataSource] instance.
      */
     private var dataSource: DataSource<*>? = null
+
+    /**
+     * [InternalScoreboard] instance.
+     */
+    private val internalScoreboard = InternalScoreboard()
 
     /**
      * Operations ran when plugin loads.
@@ -43,7 +50,7 @@ class DustyPlugin : JavaPlugin() {
         // registration
         with (Registration) {
             this.registerIntegrations()
-            this.registerListeners(this@DustyPlugin)
+            this.registerListeners(this@DustyPlugin, internalScoreboard)
             this.registerCommands(this@DustyPlugin)
         }
 
@@ -54,10 +61,16 @@ class DustyPlugin : JavaPlugin() {
                 player.kickPlayer(Message.CORRUPT_DATA.toString().color())
             }
 
-        // start data saving task if enabled
-        if (BaseOption.AUTO_SAVE.toBoolean()) {
-            val saveTime: Long = 20 * 60 * 5
-            Bukkit.getScheduler().runTaskTimer(this, Runnable { dataSource?.saveData(false) }, saveTime, saveTime)
+        // scheduler holder
+        Bukkit.getScheduler().run {
+            // start data saving task if enabled
+            if (BaseOption.AUTO_SAVE.toBoolean()) {
+                val saveTime: Long = 20 * 60 * 5
+                runTaskTimer(this@DustyPlugin, Runnable { dataSource?.saveData(false) }, saveTime, saveTime)
+            }
+
+            // start the global updater task
+            runTaskTimer(this@DustyPlugin, GlobalUpdater(internalScoreboard), 20, 20)
         }
     }
 
@@ -68,5 +81,12 @@ class DustyPlugin : JavaPlugin() {
         // save the data and initialize dataSource with null
         dataSource?.saveData(true)
         dataSource = null
+
+        // hide the scoreboard for everyone if enabled to avoid MLs.
+        if (BoardOption.ENABLED.toBoolean()) {
+            with (internalScoreboard) {
+                toggled.keys.forEach(this::hide)
+            }
+        }
     }
 }

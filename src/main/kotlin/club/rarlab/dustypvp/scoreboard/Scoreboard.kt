@@ -19,7 +19,7 @@ interface BaseScoreboard {
     /**
      * Update a [Player]'s Scoreboard.
      */
-    fun update(player: Player, action: (Any) -> Unit) {
+    fun update(player: Player) {
         throw UnsupportedOperationException("Update is not supported here.")
     }
 
