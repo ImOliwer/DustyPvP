@@ -1,0 +1,14 @@
+# Allow / disallow blocks to be placed.
+PLACE-BLOCKS: true
+
+# Allow / disallow blocks to be broken.
+BREAK-BLOCKS: true
+
+# Allow / disallow hunger loss.
+LOSE-HUNGER: true
+
+# List of entities that a player cannot hurt.
+PLAYER-HURT-ENTITY: []
+
+# Allow / disallow entities hurting players.
+ENTITY-HURT-PLAYER: true

@@ -1,0 +1,10 @@
+name: DustyPvP
+version: 0.0.1
+description: Simple, fun and customizable SkyPvP plugin.
+author: RarLab
+main: club.rarlab.dustypvp.DustyPlugin
+softdepend: [PlaceholderAPI]
+commands:
+  dustypvp:
+    description: Base command for the plugin.
+    aliases: [dp]

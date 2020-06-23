@@ -1,0 +1,37 @@
+# This is the keyword of enabled. This keyword will exist in a few messages.
+# An example is ADMIN-BYPASS, "Your bypass mode has been enabled.".
+ENABLED: "enabled"
+
+# This is the keyword of disabled. This keyword will exist in a few messages.
+# An example is ADMIN-BYPASS, "Your bypass mode has been disabled.".
+DISABLED: "disabled"
+
+# This is the kick message for when a player's data is corrupt.
+CORRUPT-DATA: "&cYour data is corrupt, please log in again!"
+
+# This message will be sent when a player does not have enough permissions.
+NO-PERMISSION: "&cInsufficient permission."
+
+# This message will be sent when the console executes a command that only players can.
+ONLY-PLAYERS: "This command can only be ran by players."
+
+# This is the command help format.
+COMMAND-HELP-FORMAT: "&5 &5\u00bb &d/%s &f- &7%s"
+
+# This message will be sent when a player executes '/dustypvp' / '/dp'.
+# Keep in mind, 'admin' is hidden unless the player has the 'dustypvp.command.admin' permission.
+COMMAND-HELP: [
+  "&f&m-------------<&5 &lDUSTYPVP &f&m>-------------",
+  "{commands}",
+  "&f&m---------------------------------------"
+]
+
+# This message will be sent when a command could not be found.
+COMMAND-INVALID: "&5DustyPvP &f\u00bb &dThe command &f%s &dcould not be found!"
+
+# This message gets sent when a player tries to build without bypass
+# and the PLACE-BLOCKS / BREAK-BLOCKS option is set to "false".
+BUILD-DENIED: "&5DustyPvP &f\u00bb &dYou cannot build here."
+
+# This message will be sent when a player toggles their bypass mode.
+ADMIN-BYPASS: "&5DustyPvP &f\u00bb &dYour bypass mode has been &f%s&d."

@@ -1,0 +1,33 @@
+# This section has all data saving options present.
+# Current available data sources are: MySQL & Flat
+DataOptions:
+  Source: FLAT
+  # Leave this to true unless you are 100% sure that
+  # the server will never crash / be force stopped.
+  Auto-Save: true
+
+# This section has all database options present.
+# NOTE: This configuration will only be of importance if
+#       "DataOptions -> Source" is set to MySQL.
+Database:
+  Authorization:
+    Username: "root"
+    Password: ""
+  URL:
+    Address: "localhost"
+    Port: 3306
+  Information:
+    Database: "dustypvp"
+    Users-Table: "users"
+
+# This section has all options for the internal chat system.
+# Leave 'Enabled' at false if you're using another plugin to
+# handle the chat format etc.
+Internal-Chat:
+  Enabled: false
+  Format: "&d{player}&7: &f{message}"
+  ToolTip: [
+    "&f* &5Kills: &d{kills}",
+    "&f* &5Deaths: &d{deaths}",
+    "&f* &5KDR: &d{kdr}"
+  ]
