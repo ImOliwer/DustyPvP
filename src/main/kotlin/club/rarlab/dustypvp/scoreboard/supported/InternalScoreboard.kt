@@ -5,6 +5,7 @@ import club.rarlab.dustypvp.core.Registration.isPlaceholderApi
 import club.rarlab.dustypvp.scoreboard.BaseScoreboard
 import club.rarlab.dustypvp.scoreboard.ScoreboardType
 import club.rarlab.dustypvp.scoreboard.teams.TeamsScoreboard
+import club.rarlab.dustypvp.util.base.reversedIf
 import club.rarlab.dustypvp.util.color
 import me.clip.placeholderapi.PlaceholderAPI.setPlaceholders
 import org.bukkit.Bukkit
@@ -65,9 +66,12 @@ class InternalScoreboard : BaseScoreboard {
         with (board) { when (board.type) {
             ScoreboardType.DEFAULT -> {
                 title(TITLE.toString().color())
-                LINES.toArray<String>().reversed().forEachIndexed { index, line ->
+
+                val isCustomScore = CUSTOM_SCORE_ENABLED.toBoolean()
+
+                LINES.toArray<String>().reversedIf(!isCustomScore).forEachIndexed { index, line ->
                     val processed = if (isPlaceholderApi) setPlaceholders(player, line) else line
-                    line(index, processed, if (CUSTOM_SCORE_ENABLED.toBoolean()) CUSTOM_SCORE.toInt() else index)
+                    line(index, processed, if (isCustomScore) CUSTOM_SCORE.toInt() else index)
                 }
             }
         }}
