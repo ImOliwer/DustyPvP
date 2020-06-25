@@ -3,6 +3,7 @@ package club.rarlab.dustypvp.helper
 import club.rarlab.dustypvp.helper.ActionType.*
 import club.rarlab.dustypvp.placeholder.InternalPlaceholders.processPlayer
 import club.rarlab.dustypvp.util.color
+import club.rarlab.dustypvp.util.sendTo
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 
@@ -36,7 +37,7 @@ data class Action(private val raw: String) {
         when (type) {
             BROADCAST -> Bukkit.broadcastMessage(processPlayer(player, splitRaw.color()))
             CONSOLE -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), processPlayer(player, splitRaw))
-            MESSAGE -> player.sendMessage(splitRaw.color())
+            MESSAGE -> splitRaw.sendTo(player)
         }
     }
 }

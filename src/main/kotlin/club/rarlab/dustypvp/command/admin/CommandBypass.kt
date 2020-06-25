@@ -5,7 +5,7 @@ import club.rarlab.dustypvp.command.SubCommand
 import club.rarlab.dustypvp.config.configurations.Message.*
 import club.rarlab.dustypvp.structure.PlayerHandler
 import club.rarlab.dustypvp.util.Permission
-import club.rarlab.dustypvp.util.color
+import club.rarlab.dustypvp.util.sendTo
 import org.bukkit.entity.Player
 
 /**
@@ -23,16 +23,16 @@ class CommandBypass : SubCommand(
         val sender = context.commandSender
 
         if (sender !is Player) {
-            sender.sendMessage(ONLY_PLAYERS.toString().color())
+            ONLY_PLAYERS.toString().sendTo(sender)
             return
         }
 
         val dustyPlayer = PlayerHandler.fetch(sender) ?: return
         with (dustyPlayer) {
             this.bypass = !this.bypass
-            sender.sendMessage(ADMIN_BYPASS.toString().format(
+            ADMIN_BYPASS.toString().format(
                     if (this.bypass) ENABLED.toString() else DISABLED.toString()
-            ).color())
+            ).sendTo(sender)
         }
     }
 }

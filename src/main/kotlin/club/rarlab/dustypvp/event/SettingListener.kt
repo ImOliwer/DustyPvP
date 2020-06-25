@@ -3,7 +3,7 @@ package club.rarlab.dustypvp.event
 import club.rarlab.dustypvp.config.configurations.Message.BUILD_DENIED
 import club.rarlab.dustypvp.config.configurations.Setting.*
 import club.rarlab.dustypvp.structure.PlayerHandler.fetch
-import club.rarlab.dustypvp.util.color
+import club.rarlab.dustypvp.util.sendTo
 import org.bukkit.entity.Entity
 import org.bukkit.entity.EntityType
 import org.bukkit.entity.EntityType.PLAYER
@@ -25,7 +25,7 @@ class SettingListener : Listener {
     fun BlockPlaceEvent.onSetting() {
         if (PLACE_BLOCKS.toBoolean() || fetch(this.player)?.bypass == true) return
         this.isCancelled = true
-        this.player.sendMessage(BUILD_DENIED.toString().color())
+        BUILD_DENIED.toString().sendTo(this.player)
     }
 
     /**
@@ -35,7 +35,7 @@ class SettingListener : Listener {
     fun BlockBreakEvent.onSetting() {
         if (BREAK_BLOCKS.toBoolean() || fetch(this.player)?.bypass == true) return
         this.isCancelled = true
-        this.player.sendMessage(BUILD_DENIED.toString().color())
+        BUILD_DENIED.toString().sendTo(this.player)
     }
 
     /**

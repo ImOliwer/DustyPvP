@@ -6,7 +6,7 @@ import club.rarlab.dustypvp.command.admin.CommandBypass
 import club.rarlab.dustypvp.config.configurations.Message
 import club.rarlab.dustypvp.util.Permission
 import club.rarlab.dustypvp.util.buildHelp
-import club.rarlab.dustypvp.util.color
+import club.rarlab.dustypvp.util.sendTo
 
 /**
  * Class to handle the 'admin' command.
@@ -30,7 +30,7 @@ class CommandAdmin : SubCommand(
         val label = context.label
 
         if (args.isEmpty()) {
-            sender.sendMessage(buildHelp(subCommands, true, label, sender).color())
+            buildHelp(subCommands, true, label, sender).sendTo(sender)
             return
         }
 
@@ -38,13 +38,13 @@ class CommandAdmin : SubCommand(
         val subCommand = subCommands.find { it.name.equals(searched, true) }
 
         if (subCommand == null) {
-            sender.sendMessage(Message.COMMAND_INVALID.toString().format(searched).color())
+            Message.COMMAND_INVALID.toString().sendTo(sender)
             return
         }
 
         subCommand.permission?.run {
             if (!sender.hasPermission(this.node)) {
-                sender.sendMessage(Message.NO_PERMISSION.toString().color())
+                Message.NO_PERMISSION.toString().sendTo(sender)
                 return
             }
         }

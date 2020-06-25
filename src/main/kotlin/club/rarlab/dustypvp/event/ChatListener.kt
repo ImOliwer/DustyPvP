@@ -1,7 +1,7 @@
 package club.rarlab.dustypvp.event
 
 import club.rarlab.dustypvp.config.configurations.ChatOption
-import club.rarlab.dustypvp.core.Registration
+import club.rarlab.dustypvp.core.Registration.isPlaceholderApi
 import club.rarlab.dustypvp.placeholder.InternalPlaceholders.processPlayer
 import club.rarlab.dustypvp.placeholder.InternalPlaceholders.processStatistics
 import club.rarlab.dustypvp.structure.PlayerHandler
@@ -35,7 +35,7 @@ class ChatListener : Listener {
             val processed = processPlayer(player, this)
                 .replace("{message}", message)
 
-            if (Registration.isPlaceholderApi) {
+            if (isPlaceholderApi) {
                 setPlaceholders(player, processed)
             } else processed
         }.color()
@@ -45,7 +45,9 @@ class ChatListener : Listener {
 
             if (toolTip.isNotEmpty()) {
                 this.hoverEvent = HoverEvent(SHOW_TEXT, ComponentBuilder(
-                    processStatistics(dustyPlayer, setPlaceholders(player, toolTip.joinToString("\n")))
+                    processStatistics(dustyPlayer, if (isPlaceholderApi) {
+                        setPlaceholders(player, toolTip.joinToString("\n"))
+                    } else toolTip.joinToString("\n"))
                 ).create())
             }
         }
